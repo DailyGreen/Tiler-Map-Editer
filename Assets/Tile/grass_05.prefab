@@ -134,7 +134,11 @@ MonoBehaviour:
   posY: 0
   tileSprite:
   - {fileID: 21300000, guid: 3ef21efafde12d740babff416570ade2, type: 3}
-  - {fileID: 21300000, guid: c17dbb4a160abb4488f0253064625821, type: 3}
-  - {fileID: 21300000, guid: 29bd7f6048d04e741900e369fef496bb, type: 3}
   - {fileID: 21300000, guid: 94a80911aec957f4b8e56f8f1740842d, type: 3}
+  - {fileID: 21300000, guid: 29bd7f6048d04e741900e369fef496bb, type: 3}
+  - {fileID: 21300000, guid: 289202d4dbe7e764d903b5ec7b1c908d, type: 3}
+  - {fileID: 21300000, guid: c17dbb4a160abb4488f0253064625821, type: 3}
+  - {fileID: 21300000, guid: 2a9a942a3dc771241a81022e8bfc1f7b, type: 3}
+  - {fileID: 21300000, guid: 8ba4a4c5c1f9a3b4b8e3acfbe550e8b5, type: 3}
+  - {fileID: 21300000, guid: 6cfdce3bc722d974c8f01704ff5f19da, type: 3}
   tileSpriteRend: {fileID: 3044242763324709725}

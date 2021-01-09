@@ -25,7 +25,11 @@ public class Tile : Object
 
     private void Update()
     {
-        this.tileSpriteRend.sprite = tileSprite[this._code];
+        if (!this._code.Equals((int)TILE.START_POINT))
+        {
+            if (this._code > (int)TILE.CAN_MOVE) { this.tileSpriteRend.sprite = tileSprite[this._code - 1]; }
+            else if (this._code < (int)TILE.CAN_MOVE) { this.tileSpriteRend.sprite = tileSprite[this._code]; }
+        }
     }
     /**
      * @brief 타일의 posX,posY값  설정 또는 값 알아오기

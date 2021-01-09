@@ -2,6 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TILE
+{
+    GRASS = 0,
+    SAND,
+    DIRT,
+    MARS,
+    STONE,
+    CAN_MOVE,
+    SEA_01,
+    SEA_02,
+    SEA_03,
+    START_POINT,
+}
+
 public class Mng : MonoBehaviour
 {
     private static Mng _Instance = null;
@@ -35,7 +49,11 @@ public class Mng : MonoBehaviour
     public Tile[,] mapTile = new Tile[mapHeight, mapWidth];
 
     public string _filename;
+    public GameObject startpoint;
 
+    public int nCount = 0;     // 스타팅 포인트 갯수
+    int _code;
+    GameObject sp;
     // Start is called before the first frame update
     public static Mng I
     {
@@ -75,29 +93,78 @@ public class Mng : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             mouseRaycast(true);
             if (hit.collider != null)
             {
                 showtargettile.transform.localPosition = targetTile.transform.localPosition;
+                targetTile._code = _code;
             }
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            targetTile._code = 0;
+            _code = (int)TILE.GRASS;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            targetTile._code = 1;
+            _code = (int)TILE.SAND;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            targetTile._code = 2;
+            _code = (int)TILE.DIRT;
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            targetTile._code = 3;
+            _code = (int)TILE.MARS;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            _code = (int)TILE.STONE;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            _code = (int)TILE.SEA_01;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            _code = (int)TILE.SEA_02; ;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            _code = (int)TILE.SEA_03;
+        }
+        if (hit.collider != null)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && nCount < 24 && !targetTile._code.Equals((int)TILE.START_POINT))
+            {
+                targetTile._code = (int)TILE.START_POINT;
+                sp = Instantiate(startpoint, targetTile.transform);
+                sp.transform.localPosition = Vector2.zero;
+                nCount++;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            StartingPointReset();
         }
     }
+
+    void StartingPointReset()
+    {
+        for (int i = 0; i < mapHeight; i++)
+        {
+            for (int j = 0; j < mapWidth; j++)
+            {
+                if (mapTile[i, j]._code.Equals((int)TILE.START_POINT))
+                {
+                    mapTile[i, j]._code = 0;
+                    DestroyImmediate(mapTile[i, j].transform.GetChild(0).gameObject);
+                }
+            }
+        }
+        nCount = 0;
+    }
 }
+
