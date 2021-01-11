@@ -9,11 +9,11 @@ public enum TILE
     DIRT,
     MARS,
     STONE,
+    START_POINT,
     CAN_MOVE,
     SEA_01,
     SEA_02,
-    SEA_03,
-    START_POINT,
+    SEA_03
 }
 
 public class Mng : MonoBehaviour
