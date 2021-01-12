@@ -9,23 +9,32 @@ public class UI : MonoBehaviour
     public Text Savetext;
     public void MapfileSave()
     {
-        FileInfo fi = new FileInfo(@"Assets/" + Mng.I._filename + ".txt");
-        if (!fi.Exists)
+        if (Mng.I.nCount.Equals(24))
         {
-            FileStream file = File.Create(@"Assets/" + Mng.I._filename + ".txt");
-            file.Close();
-        }
-        StreamWriter sw = new StreamWriter(@"Assets/" + Mng.I._filename + ".txt");
-        for (int y = 0; y < Mng.I.getMapHeight; y++)
-        {
-            for (int x = 0; x < Mng.I.getMapwidth; x++)
+            FileInfo fi = new FileInfo(@"Assets/" + Mng.I._filename + ".txt");
+            if (!fi.Exists)
             {
-                sw.Write(Mng.I.mapTile[y, x]._code);
+                FileStream file = File.Create(@"Assets/" + Mng.I._filename + ".txt");
+                file.Close();
             }
-            sw.WriteLine();
+            StreamWriter sw = new StreamWriter(@"Assets/" + Mng.I._filename + ".txt");
+            for (int y = 0; y < Mng.I.getMapHeight; y++)
+            {
+                for (int x = 0; x < Mng.I.getMapwidth; x++)
+                {
+                    sw.Write(Mng.I.mapTile[y, x]._code);
+                }
+                sw.WriteLine();
+            }
+            sw.Close();
+            Savetext.text = "저장 완료.";
+            StartCoroutine("SaveTxt");
         }
-        sw.Close();
-        StartCoroutine("SaveTxt");
+        else
+        {
+            Savetext.text = "시작지점 24개 미만이에요.";
+            StartCoroutine("SaveTxt");
+        }
     }
 
     IEnumerator SaveTxt()
