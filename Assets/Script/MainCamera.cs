@@ -12,7 +12,7 @@ public class MainCamera : MonoBehaviour
     private const float zoomScale = 10f;
     private const float zoomLerpSpeed = 10f;
     [SerializeField]
-    private float minZoom = 8f;
+    private float minZoom = 16f;
     [SerializeField]
     private float maxZoom = 4.5f;
     private float scrollData;
@@ -53,19 +53,19 @@ public class MainCamera : MonoBehaviour
     void CameraMove()
     {
         Vector3 pos = this.transform.position;
-        if (Input.GetKey("w") || Input.mousePosition.y >= Screen.height - borderThickness)
+        if (Input.GetKey("w"))
         {
             pos.y += fMoveSpeed * Time.deltaTime;
         }
-        if (Input.GetKey("s") || Input.mousePosition.y <= borderThickness)
+        if (Input.GetKey("s"))
         {
             pos.y -= fMoveSpeed * Time.deltaTime;
         }
-        if (Input.GetKey("d") || Input.mousePosition.x >= Screen.width - borderThickness)
+        if (Input.GetKey("d"))
         {
             pos.x += fMoveSpeed * Time.deltaTime;
         }
-        if (Input.GetKey("a") || Input.mousePosition.x <= borderThickness)
+        if (Input.GetKey("a"))
         {
             pos.x -= fMoveSpeed * Time.deltaTime;
         }

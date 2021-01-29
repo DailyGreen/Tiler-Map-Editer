@@ -9,11 +9,15 @@ public enum TILE
     DIRT,
     MARS,
     STONE,
-    START_POINT,
     CAN_MOVE,
     SEA_01,
     SEA_02,
-    SEA_03
+    SEA_03,
+    GRASS_START = 'F',
+    SAND_START ='G',
+    DIRT_START ='H',
+    MARS_START ='I',
+    STONE_START ='J',
 }
 
 public class Mng : MonoBehaviour
@@ -24,13 +28,16 @@ public class Mng : MonoBehaviour
     * 레이케스트 위한 변수
     */
     public RaycastHit2D hit;
-    public Tile selectedTile = null;
+    //public Tile selectedTile = null;
     public Tile targetTile = null;
 
     private const int mapHeight = 50;
     private const int mapWidth = 50;
 
     public GameObject showtargettile;
+
+    [SerializeField]
+    UnityEngine.UI.Text count;
 
     public int getMapwidth
     {
@@ -88,7 +95,6 @@ public class Mng : MonoBehaviour
         if (hit.collider != null)
         {
             if (isTarget) targetTile = hit.collider.gameObject.GetComponent<Tile>();
-            else selectedTile = hit.collider.gameObject.GetComponent<Tile>();
         }
     }
     private void Update()
@@ -137,11 +143,29 @@ public class Mng : MonoBehaviour
         }
         if (hit.collider != null)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && nCount < 24 && !targetTile._code.Equals((int)TILE.START_POINT))
+            if (Input.GetKeyDown(KeyCode.Space) && nCount < 24 && targetTile._code < ((int)TILE.GRASS_START))
             {
-                targetTile._code = (int)TILE.START_POINT;
+                switch(targetTile._code)
+                {
+                    case (int)TILE.GRASS:
+                        targetTile._code = (int)TILE.GRASS_START;
+                        break;
+                    case (int)TILE.SAND:
+                        targetTile._code = (int)TILE.SAND_START;
+                        break;
+                    case (int)TILE.DIRT:
+                        targetTile._code = (int)TILE.DIRT_START;
+                        break;
+                    case (int)TILE.MARS:
+                        targetTile._code = (int)TILE.MARS_START;
+                        break;
+                    case (int)TILE.STONE:
+                        targetTile._code = (int)TILE.STONE_START;
+                        break;
+                }
                 sp = Instantiate(startpoint, targetTile.transform);
                 sp.transform.localPosition = Vector2.zero;
+                count.text = "시작지점 갯수: " + nCount;
                 nCount++;
             }
         }
@@ -157,7 +181,7 @@ public class Mng : MonoBehaviour
         {
             for (int j = 0; j < mapWidth; j++)
             {
-                if (mapTile[i, j]._code.Equals((int)TILE.START_POINT))
+                if (mapTile[i, j]._code >= ((int)TILE.GRASS_START))
                 {
                     mapTile[i, j]._code = 0;
                     DestroyImmediate(mapTile[i, j].transform.GetChild(0).gameObject);

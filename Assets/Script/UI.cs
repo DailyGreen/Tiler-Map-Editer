@@ -22,7 +22,8 @@ public class UI : MonoBehaviour
             {
                 for (int x = 0; x < Mng.I.getMapwidth; x++)
                 {
-                    sw.Write(Mng.I.mapTile[y, x]._code);
+                    if (Mng.I.mapTile[y, x]._code >= (int)TILE.GRASS_START) { sw.Write((char)Mng.I.mapTile[y, x]._code); }
+                    else { sw.Write(Mng.I.mapTile[y, x]._code); }
                 }
                 sw.WriteLine();
             }
