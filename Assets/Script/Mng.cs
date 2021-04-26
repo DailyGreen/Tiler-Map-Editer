@@ -7,17 +7,23 @@ public enum TILE
     GRASS = 0,
     SAND,
     DIRT,
-    MARS,
     STONE,
     CAN_MOVE,
-    SEA_01,
-    SEA_02,
-    SEA_03,
-    GRASS_START = 'F',
-    SAND_START ='G',
-    DIRT_START ='H',
-    MARS_START ='I',
-    STONE_START ='J',
+    GRASS_START = 'A',
+    SAND_START = 'B',
+    DIRT_START = 'C',
+    STONE_START = 'D',
+    GRASS_TREE = 'E',
+    GRASS_STONE = 'F',
+    SAND_TREE = 'G',
+    SAND_STONE = 'H',
+    DIRT_TREE = 'I',
+    DIRT_STONE = 'J',
+    STONE_DECO1 = 'K',
+    STONE_DECO2 = 'L',
+    SEA_01 = 'M',
+    SEA_02 = 'N',
+    SEA_03 = 'O'
 }
 
 public class Mng : MonoBehaviour
@@ -37,7 +43,9 @@ public class Mng : MonoBehaviour
     public GameObject showtargettile;
 
     [SerializeField]
-    UnityEngine.UI.Text count;
+    public UnityEngine.UI.Text count;
+
+    private bool multykeycheck;
 
     public int getMapwidth
     {
@@ -102,10 +110,50 @@ public class Mng : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             mouseRaycast(true);
-            if (hit.collider != null)
+            if (targetTile != null)
             {
                 showtargettile.transform.localPosition = targetTile.transform.localPosition;
                 targetTile._code = _code;
+            }
+        }
+        if (Input.GetMouseButton(1))
+        {
+            mouseRaycast(true);
+            showtargettile.transform.localPosition = targetTile.transform.localPosition;
+            switch (_code)
+            {
+                case (int)TILE.GRASS:
+                    targetTile._code = (int)TILE.GRASS_TREE;
+                    break;
+                case (int)TILE.SAND:
+                    targetTile._code = (int)TILE.SAND_TREE;
+                    break;
+                case (int)TILE.DIRT:
+                    targetTile._code = (int)TILE.DIRT_TREE;
+                    break;
+                case (int)TILE.STONE:
+                    targetTile._code = (int)TILE.STONE_DECO1;
+                    break;
+            }
+        }
+        if (Input.GetMouseButton(2))
+        {
+            mouseRaycast(true);
+            showtargettile.transform.localPosition = targetTile.transform.localPosition;
+            switch (_code)
+            {
+                case (int)TILE.GRASS:
+                    targetTile._code = (int)TILE.GRASS_STONE;
+                    break;
+                case (int)TILE.SAND:
+                    targetTile._code = (int)TILE.SAND_STONE;
+                    break;
+                case (int)TILE.DIRT:
+                    targetTile._code = (int)TILE.DIRT_STONE;
+                    break;
+                case (int)TILE.STONE:
+                    targetTile._code = (int)TILE.STONE_DECO2;
+                    break;
             }
         }
 
@@ -113,60 +161,61 @@ public class Mng : MonoBehaviour
         {
             _code = (int)TILE.GRASS;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             _code = (int)TILE.SAND;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             _code = (int)TILE.DIRT;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            _code = (int)TILE.MARS;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             _code = (int)TILE.STONE;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             _code = (int)TILE.SEA_01;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             _code = (int)TILE.SEA_02; ;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             _code = (int)TILE.SEA_03;
         }
-        if (hit.collider != null)
+        else if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            if (Input.GetKeyDown(KeyCode.Space) && nCount < 24 && targetTile._code < ((int)TILE.GRASS_START))
+            multykeycheck = false;
+        }
+        if (targetTile != null)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && nCount < 24 && !targetTile.startpoint && targetTile._code < (int)TILE.SEA_01)
             {
-                switch(targetTile._code)
+                switch (targetTile._code)
                 {
                     case (int)TILE.GRASS:
                         targetTile._code = (int)TILE.GRASS_START;
+                        targetTile.startpoint = true;
                         break;
                     case (int)TILE.SAND:
                         targetTile._code = (int)TILE.SAND_START;
+                        targetTile.startpoint = true;
                         break;
                     case (int)TILE.DIRT:
                         targetTile._code = (int)TILE.DIRT_START;
-                        break;
-                    case (int)TILE.MARS:
-                        targetTile._code = (int)TILE.MARS_START;
+                        targetTile.startpoint = true;
                         break;
                     case (int)TILE.STONE:
                         targetTile._code = (int)TILE.STONE_START;
+                        targetTile.startpoint = true;
                         break;
                 }
                 sp = Instantiate(startpoint, targetTile.transform);
                 sp.transform.localPosition = Vector2.zero;
-                count.text = "시작지점 갯수: " + nCount;
                 nCount++;
+                count.text = "시작지점 갯수: " + nCount;
             }
         }
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -181,14 +230,16 @@ public class Mng : MonoBehaviour
         {
             for (int j = 0; j < mapWidth; j++)
             {
-                if (mapTile[i, j]._code >= ((int)TILE.GRASS_START))
+                if (mapTile[i, j].startpoint)
                 {
                     mapTile[i, j]._code = 0;
                     DestroyImmediate(mapTile[i, j].transform.GetChild(0).gameObject);
+                    mapTile[i, j].startpoint = false;
                 }
             }
         }
         nCount = 0;
+        count.text = "시작지점 갯수: " + nCount;
     }
 }
 

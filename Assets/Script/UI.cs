@@ -7,6 +7,12 @@ using UnityEngine.UI;
 public class UI : MonoBehaviour
 {
     public Text Savetext;
+
+    void Start()
+    {
+        Mng.I.count.text = "시작지점 갯수: " + Mng.I.nCount;
+    }
+
     public void MapfileSave()
     {
         if (Mng.I.nCount.Equals(24))

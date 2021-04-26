@@ -285,7 +285,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 40
+    m_FontSize: 37
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -296,8 +296,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "1.\uC794\uB514 2.\uBAA8\uB798 3.\uB354\uB7EC\uC6B4 4.\uD654\uC131 5.\uB3CC
-    6~8 \uBC14\uB2E4 space.\uC2A4\uD0C0\uD305\uD3EC\uC778\uD2B8 esc.\uCD08\uAE30\uD654"
+  m_Text: "1.\uC794\uB514 2.\uBAA8\uB798 3.\uB354\uB7EC\uC6B4 4.\uB3CC, 5~7 \uBC14\uB2E4
+    space.\uC2A4\uD0C0\uD305\uD3EC\uC778\uD2B8 ,esc.\uCD08\uAE30\uD654, \uC6B0\uD074
+    \uB370\uCF54_1, \uD720 \uB370\uCF54_2"
 --- !u!222 &461089843
 CanvasRenderer:
   m_ObjectHideFlags: 0
