@@ -454,6 +454,7 @@ MonoBehaviour:
   parentObject: {fileID: 797709162}
   hextile: {fileID: 3044242763324709726, guid: d7075d4c83a9ded4e80a3900b1bfbc8b, type: 3}
   tilestate: {fileID: 1740379398, guid: d7075d4c83a9ded4e80a3900b1bfbc8b, type: 3}
+  cells: []
 --- !u!1 &918796813
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +567,7 @@ MonoBehaviour:
   targetTile: {fileID: 0}
   showtargettile: {fileID: 1343080361}
   count: {fileID: 1286409394}
+  hexTileCreate: {fileID: 797709164}
   _filename: test
   startpoint: {fileID: 3529454579704345236, guid: 57354991b311eba439a9beb83bd1e115, type: 3}
   nCount: 0

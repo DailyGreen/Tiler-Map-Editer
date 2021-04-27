@@ -47,6 +47,8 @@ public class Mng : MonoBehaviour
 
     private bool multykeycheck;
 
+    public HexTileCreate hexTileCreate;
+
     public int getMapwidth
     {
         get

@@ -69,6 +69,10 @@ public class MainCamera : MonoBehaviour
         {
             pos.x -= fMoveSpeed * Time.deltaTime;
         }
+        if (Input.GetKey("l"))
+        {
+            Mng.I.hexTileCreate.LoadMapFile("mapinfo");
+        }
         pos.z = -20;
 
         pos.x = Mathf.Clamp(pos.x, -limitPos.x, limitPos.x);

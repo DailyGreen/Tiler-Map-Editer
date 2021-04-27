@@ -14,8 +14,15 @@ public class HexTileCreate : MonoBehaviour
     public const float tileXOffset = 1.24f;
     public const float tileYOffset = 1.08f;
 
-    //string[] mapReadLines = File.ReadAllLines(@"Assets/mapinfo.txt");
-    //char[] mapReadChar;
+    public Tile[] cells;
+
+    // 맵 로드(텍스트 읽기)
+    TextAsset maptextload;
+    String[] mapreadlines;
+    char[] mapReadChar;
+
+    // cells 인덱스
+    int i;
     // Start is called before the first frame update
     void Start()
     {   
@@ -33,15 +40,14 @@ public class HexTileCreate : MonoBehaviour
      */
     void CreateHexTileMap()
     {
+        cells = new Tile[Mng.I.getMapHeight * Mng.I.getMapwidth];
         for (int y = 0; y < Mng.I.getMapHeight; y++)
         {
-            //mapReadChar = mapReadLines[x].ToCharArray();
             for (int x = 0; x < Mng.I.getMapwidth; x++)
             {
-                //tilestate._code = (int)Char.GetNumericValue(mapReadChar[y]);
                 GameObject child = Instantiate(hextile) as GameObject;
                 child.transform.parent = parentObject.transform;
-
+                cells[i] = child.GetComponent<Tile>();
                 Mng.I.mapTile[y, x] = child.transform.GetComponent<Tile>();      // 각각의 타일 스크립트 GameMng.I.mapTile 2차원 배열에 저장
                 if (y % 2 == 0)
                 {
@@ -52,9 +58,29 @@ public class HexTileCreate : MonoBehaviour
                     child.transform.position = new Vector2(x * tileXOffset + tileXOffset / 2, y * tileYOffset);
                 }
                 tilestate.PosY++;
+                i++;
             }
             tilestate.PosY = 0;
             tilestate.PosX++;
+        }
+    }
+
+    public void LoadMapFile(string _filename)
+    {
+        i = 0;
+        maptextload = Resources.Load(_filename) as TextAsset;
+        mapreadlines = maptextload.text.Split('\n');
+        Debug.Log(maptextload);
+        for (int y = 0; y < Mng.I.getMapHeight; y++)
+        {
+            mapReadChar = mapreadlines[y].ToCharArray();
+            for (int x = 0; x < Mng.I.getMapwidth; x++)
+            {
+                cells[i]._code = (int)Char.GetNumericValue(mapReadChar[y]);
+                if (mapReadChar[x] >= (char)TILE.GRASS_START) { cells[i]._code = (int)mapReadChar[x]; }
+                else { cells[i]._code = (int)Char.GetNumericValue(mapReadChar[x]); }
+                i++;
+            }
         }
     }
 }
