@@ -77,7 +77,12 @@ public class HexTileCreate : MonoBehaviour
             for (int x = 0; x < Mng.I.getMapwidth; x++)
             {
                 cells[i]._code = (int)Char.GetNumericValue(mapReadChar[y]);
-                if (mapReadChar[x] >= (char)TILE.GRASS_START) { cells[i]._code = (int)mapReadChar[x]; }
+                if (mapReadChar[x] >= (char)TILE.GRASS_START) { cells[i]._code = (int)mapReadChar[x];
+                    if(mapReadChar[x] < (char)TILE.GRASS_TREE)
+                    {
+                        cells[i]._code = 0;
+                    }
+                }
                 else { cells[i]._code = (int)Char.GetNumericValue(mapReadChar[x]); }
                 i++;
             }

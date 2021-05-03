@@ -70,7 +70,7 @@ public class Mng : MonoBehaviour
 
     public int nCount = 0;     // 스타팅 포인트 갯수
     int _code;
-    GameObject sp;
+    public GameObject sp;
     // Start is called before the first frame update
     public static Mng I
     {

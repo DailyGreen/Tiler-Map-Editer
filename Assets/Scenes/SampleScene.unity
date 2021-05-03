@@ -571,6 +571,7 @@ MonoBehaviour:
   _filename: test
   startpoint: {fileID: 3529454579704345236, guid: 57354991b311eba439a9beb83bd1e115, type: 3}
   nCount: 0
+  sp: {fileID: 0}
 --- !u!1 &1286409392
 GameObject:
   m_ObjectHideFlags: 0
