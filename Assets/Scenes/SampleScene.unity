@@ -349,7 +349,8 @@ MonoBehaviour:
   _camera: {fileID: 519420031}
   minZoom: 16
   maxZoom: 4.5
-  limitPos: {x: 100, y: 100, z: 0}
+  limitPos: {x: 60, y: 52, z: 0}
+  minpos: {x: -1, y: -1.5, z: 0}
   fMoveSpeed: 5
 --- !u!20 &519420031
 Camera:

@@ -41,24 +41,42 @@ public class HexTileCreate : MonoBehaviour
     void CreateHexTileMap()
     {
         cells = new Tile[Mng.I.getMapHeight * Mng.I.getMapwidth];
-        for (int y = 0; y < Mng.I.getMapHeight; y++)
+        for (int y = -4; y < Mng.I.getMapHeight + 4; y++)
         {
-            for (int x = 0; x < Mng.I.getMapwidth; x++)
+            for (int x = -4; x < Mng.I.getMapwidth + 4; x++)
             {
-                GameObject child = Instantiate(hextile) as GameObject;
-                child.transform.parent = parentObject.transform;
-                cells[i] = child.GetComponent<Tile>();
-                Mng.I.mapTile[y, x] = child.transform.GetComponent<Tile>();      // 각각의 타일 스크립트 GameMng.I.mapTile 2차원 배열에 저장
-                if (y % 2 == 0)
+                if (x >= 0 && x < Mng.I.getMapwidth && y >= 0 && y < Mng.I.getMapwidth)
                 {
-                    child.transform.position = new Vector2(x * tileXOffset, y * tileYOffset);
+                    GameObject child = Instantiate(hextile) as GameObject;
+                    child.transform.parent = parentObject.transform;
+                    cells[i] = child.GetComponent<Tile>();
+                    Mng.I.mapTile[y, x] = child.transform.GetComponent<Tile>();      // 각각의 타일 스크립트 GameMng.I.mapTile 2차원 배열에 저장
+                    if (y % 2 == 0)
+                    {
+                        child.transform.position = new Vector2(x * tileXOffset, y * tileYOffset);
+                    }
+                    else
+                    {
+                        child.transform.position = new Vector2(x * tileXOffset + tileXOffset / 2, y * tileYOffset);
+                    }
+                    tilestate.PosY++;
+                    i++;
                 }
                 else
                 {
-                    child.transform.position = new Vector2(x * tileXOffset + tileXOffset / 2, y * tileYOffset);
+                    GameObject child = Instantiate(hextile) as GameObject;
+                    child.transform.parent = parentObject.transform;
+                    child.GetComponent<Tile>()._code = (int)TILE.GRASS_TREE;
+                    child.name = x.ToString() + "," + y.ToString();
+                    if (y % 2 == 0)
+                    {
+                        child.transform.position = new Vector2(x * tileXOffset, y * tileYOffset);
+                    }
+                    else
+                    {
+                        child.transform.position = new Vector2(x * tileXOffset + tileXOffset / 2, y * tileYOffset);
+                    }
                 }
-                tilestate.PosY++;
-                i++;
             }
             tilestate.PosY = 0;
             tilestate.PosX++;

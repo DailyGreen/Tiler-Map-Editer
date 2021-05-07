@@ -20,7 +20,7 @@ public class Tile : Object
 
     void Start()
     {
-        _code = 0;
+        //_code = 0;
         startpoint = false;
         tile = this.GetComponent<GameObject>();
         //this.tileSpriteRend.sprite = tileSprite[this._code];

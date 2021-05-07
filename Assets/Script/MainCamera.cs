@@ -12,7 +12,7 @@ public class MainCamera : MonoBehaviour
     private const float zoomScale = 10f;
     private const float zoomLerpSpeed = 10f;
     [SerializeField]
-    private float minZoom = 16f;
+    private float minZoom = 8f;
     [SerializeField]
     private float maxZoom = 4.5f;
     private float scrollData;
@@ -21,6 +21,8 @@ public class MainCamera : MonoBehaviour
     // 카메라 움직임 쓰임
     [SerializeField]
     private Vector3 limitPos;
+    [SerializeField]
+    private Vector3 minpos;
     public float fMoveSpeed = 10f;
     private const float borderThickness = 10f;      // 마우스가 스크린 밖에 닿는 범위( 두께 )
     void Start()
@@ -48,35 +50,49 @@ public class MainCamera : MonoBehaviour
     }
 
     /**
+     * @brief 카메라 세로 사이즈 알아오기
+     */
+    public float getCameraHeight()
+    {
+        return Camera.main.orthographicSize * 2.0f;
+    }
+
+    /**
+     * @brief 카메라 가로 사이즈 알아오기
+     */
+    public float getCameraWidth()
+    {
+        return getCameraHeight() * Screen.width / Screen.height;
+    }
+
+    /**
      * @brief 마우스 드래그로 카메라 움직임
      */
     void CameraMove()
     {
         Vector3 pos = this.transform.position;
-        if (Input.GetKey("w"))
+
+        pos.x = Mathf.Clamp(pos.x, minpos.x + (getCameraWidth() * 0.4f), limitPos.x - (getCameraWidth() * 0.4f));
+        pos.y = Mathf.Clamp(pos.y, minpos.y + (getCameraHeight() * 0.4f), limitPos.y - (getCameraHeight() * 0.4f));
+
+        if ((Input.GetKey("w") || Input.mousePosition.y >= Screen.height - borderThickness))
         {
             pos.y += fMoveSpeed * Time.deltaTime;
         }
-        if (Input.GetKey("s"))
+        if ((Input.GetKey("s") || Input.mousePosition.y <= borderThickness))
         {
             pos.y -= fMoveSpeed * Time.deltaTime;
         }
-        if (Input.GetKey("d"))
+        if ((Input.GetKey("d") || Input.mousePosition.x >= Screen.width - borderThickness))
         {
             pos.x += fMoveSpeed * Time.deltaTime;
         }
-        if (Input.GetKey("a"))
+        if ((Input.GetKey("a") || Input.mousePosition.x <= borderThickness))
         {
             pos.x -= fMoveSpeed * Time.deltaTime;
         }
-        if (Input.GetKey("l"))
-        {
-            Mng.I.hexTileCreate.LoadMapFile("mapinfo");
-        }
         pos.z = -20;
 
-        pos.x = Mathf.Clamp(pos.x, -limitPos.x, limitPos.x);
-        pos.y = Mathf.Clamp(pos.y, -limitPos.y, limitPos.y);
         this.transform.position = pos;
     }
 }
